@@ -1,0 +1,5 @@
+client/node_modules
+target
+src/main/resources/webroot/dist
+.verts
+
