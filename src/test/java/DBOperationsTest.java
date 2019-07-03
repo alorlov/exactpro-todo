@@ -3,6 +3,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ public class DBOperationsTest {
 	}
 	
 	@Test
-	void getAllTasks() {
+	void getAllTasks() throws SQLException {
 		dbo.createTask("a", 11);
 		dbo.createTask("b", 22);
 		ArrayList<Map> tasks = dbo.getAllTasks();
@@ -45,14 +46,14 @@ public class DBOperationsTest {
 	}
 	
 	@Test
-	void newTask() {
+	void newTask() throws SQLException {
 		dbo.createTask("a", 1);
 		int res = dbo.createTask("a", 1);
 		assertEquals(2, res);
 	}
 	
 	@Test
-	void getTask() {
+	void getTask() throws SQLException {
 		String description = "a";
 		int duein = 1;
 		
@@ -65,14 +66,14 @@ public class DBOperationsTest {
 	}
 	
 	@Test
-	void deleteTask() {
+	void deleteTask() throws SQLException {
 		dbo.createTask("a", 1);
 		int res = dbo.deleteTask(1);
 		assertEquals(res, 1);
 	}
 
 	@Test
-	void updateTask() {
+	void updateTask() throws SQLException {
 		dbo.createTask("a", 1);
 		dbo.updateTask(1, "b", 2);
 		Map task = dbo.getTask(1).get(0);

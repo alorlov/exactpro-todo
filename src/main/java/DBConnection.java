@@ -32,30 +32,4 @@ public class DBConnection {
     	con = DriverManager.getConnection(url, user, password);
     	return con;
     }
-    
-//    public ResultSet select(String query) {
-//    	if (con == null) {
-//    		System.out.println("No db-connection");
-//    		return null;
-//    	}
-//    	try {
-//    		rs = con.createStatement().executeQuery(query);
-//    	} catch (SQLException ex) {
-//    		ex.printStackTrace();
-//    	}
-//		return rs;
-//    }
-//    public int execute(String query) {
-//    	if (con == null) {
-//    		System.out.println("No db-connection");
-//    		return 0;
-//    	}
-//    	int result = 0;
-//    	try {
-//    		result = con.createStatement().executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-//    	} catch (SQLException ex) {
-//    		ex.printStackTrace();
-//    	}
-//		return result;
-//    }
 }

@@ -32,11 +32,11 @@ public class DBOperations {
 		
 	}
     
-    public ArrayList<Map> getAllTasks() {
+    public ArrayList<Map> getAllTasks() throws SQLException {
     	return getTask(0);
     }
     
-    public ArrayList<Map> getTask(int id) {
+    public ArrayList<Map> getTask(int id) throws SQLException {
     	String query = "Select * From " + table;
     	
     	if (id > 0) {
@@ -55,13 +55,11 @@ public class DBOperations {
 				row.put("duein", rs.getString("duein"));
 				result.add((Map) row.clone());
 			}
-		} catch (SQLException se) {
-			se.printStackTrace();
 		}
 		return result;
     }
     
-    public int createTask(String description, int duein) {
+    public int createTask(String description, int duein) throws SQLException {
     	String query = "Insert " + table + " Set description = ?, duein = ?";
     	
     	try (Connection con = db.getConnection()){
@@ -79,26 +77,20 @@ public class DBOperations {
     		} else {
     			return result;
     		}
-    	} catch (SQLException se) {
-    		se.printStackTrace();
-    		return 0;
     	}
     }
     
-    public int deleteTask(int id) {
+    public int deleteTask(int id) throws SQLException {
     	String query = "Delete From " + table + " Where id = ?";
     	try (Connection con = db.getConnection()){
     		PreparedStatement ps = con.prepareStatement(query);
     		ps.setInt(1, id);
     		
     		return ps.executeUpdate();
-    	} catch (SQLException se) {
-    		se.printStackTrace();
-    		return 0;
     	}
     }
     
-    public int updateTask(int id, String description, int duein) {
+    public int updateTask(int id, String description, int duein) throws SQLException {
     	String query = "Update " + table + " Set description = ?, duein = ? Where id = ?";
     	
     	try (Connection con = db.getConnection()){
@@ -108,13 +100,10 @@ public class DBOperations {
     		ps.setInt(3, id);
     		
     		return ps.executeUpdate();
-    	} catch (SQLException e) {
-    		e.printStackTrace();
     	}
-		return 0;
     }
     
-    public static void main(String args[]) {
+    public static void main(String args[]) throws SQLException {
     	DBOperations dbo = new DBOperations();
     	int result = 0;
 

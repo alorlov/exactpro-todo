@@ -4,7 +4,10 @@
 module.exports = {
   mode: 'development',
   devtool: 'source-map',
-  entry: './src/index.js',
+  entry: './src/index.tsx',
+  resolve: {
+    extensions: ['.js', '.ts', '.tsx']
+  },
   output: {
     path: __dirname + '/../src/main/resources/webroot/dist',
     filename: 'bundle.js',
@@ -23,6 +26,20 @@ module.exports = {
         }
       },
       {
+          test: /\.ts(x?)$/,
+          exclude: /node_modules/,
+          use: [
+              {
+                  loader: "ts-loader"
+              }
+          ]
+      },
+      // {
+      //     enforce: "pre",
+      //     test: /\.js$/,
+      //     loader: "source-map-loader"
+      // },
+      {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
@@ -32,6 +49,10 @@ module.exports = {
       }
     ]
   },
+  // externals: {
+  //     "react": "React",
+  //     "react-dom": "ReactDOM"
+  // }
   // plugins: [
   //   new webpack.HotModuleReplacementPlugin(),
   // ]

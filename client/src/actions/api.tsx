@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { Task } from '../types/Task'
 
-class ApiActions {
-  static deleteTask (id) {
+export class Actions {
+  static deleteTask (id: number): Promise<number> {
     return new Promise((resolve, reject) => {
       axios.get("/api/delete/" + id)
       .then(response => {
@@ -17,12 +18,12 @@ class ApiActions {
     })
   }
 
-  static getAll() {
+  static getAll(): Promise<Task[]> {
     return new Promise((resolve, reject) => {
       axios.get("/api/get")
       .then(response => {
         let data = response.data
-
+        console.log(data)
         if (data.hasOwnProperty("error")) {
           reject(data.error)
         }
@@ -32,7 +33,7 @@ class ApiActions {
     })
   }
 
-  static create(description, duein) {
+  static create(description: string, duein: number): Promise<number> {
     return new Promise((resolve, reject) => {
       axios.post("/api/create", {
         description: description,
@@ -51,7 +52,7 @@ class ApiActions {
     })
   }
 
-  static updateTask(id, description, duein) {
+  static updateTask(id: number, description: string, duein: number) {
     return new Promise((resolve, reject) => {
       axios.post("/api/update", {
         id: Number(id),
@@ -73,4 +74,4 @@ class ApiActions {
 }
 
 
-export default ApiActions
+export default Actions

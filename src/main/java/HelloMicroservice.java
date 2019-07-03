@@ -17,6 +17,7 @@ import io.vertx.ext.web.handler.StaticHandler;
 public class HelloMicroservice extends AbstractVerticle {
 	
     private static DBOperations dbo = new DBOperations();
+	private String clientErrorText = "There is an error on the server, please see the server console.";
  
     @Override
     public void start() {
@@ -40,18 +41,29 @@ public class HelloMicroservice extends AbstractVerticle {
     
     public void apiGet(RoutingContext rc) {
     	String id = rc.pathParam("id");
-
-    	ArrayList<Map> tasks = dbo.getTask(Integer.parseInt(id));
-    	JsonObject json = new JsonObject().put("tasks", tasks);
+    	JsonObject json = new JsonObject();
+    	
+    	try {    		
+    		ArrayList<Map> tasks = dbo.getTask(Integer.parseInt(id));
+    		json.put("tasks", tasks);
+    	} catch (Exception e) {
+    		json.put("error", clientErrorText);
+    		e.printStackTrace();
+    	}
     	rc.response()
     		.putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
     		.end(json.encode());
     }
     
     public void apiGetAll(RoutingContext rc) {
-    	ArrayList<Map> tasks = dbo.getAllTasks();
-    	JsonObject json = new JsonObject().put("tasks", tasks);
-    	
+    	JsonObject json = new JsonObject();
+    	try {
+	    	ArrayList<Map> tasks = dbo.getAllTasks();
+	    	json.put("tasks", tasks);
+    	} catch (Exception e) {
+    		json.put("error", clientErrorText);
+    		e.printStackTrace();
+    	}
     	rc.response()
     		.putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
     		.end(json.encode());
@@ -61,15 +73,14 @@ public class HelloMicroservice extends AbstractVerticle {
     	JsonObject json = new JsonObject();
     	try {
 	    	JsonObject body = rc.getBodyAsJson();
-	    	System.out.println(body.toString());
-	    	String description = body.getString("description");
 	    	int duein = body.getInteger("duein");
+	    	String description = body.getString("description");
 	    	
 	    	int res = dbo.createTask(description, duein);
 	    	
 	    	json.put("id", res);
     	} catch (Exception e) {
-    		json.put("error", "There is an error on the server, please see the server console.");
+    		json.put("error", clientErrorText);
     		e.printStackTrace();
     	}
     	rc.response()
@@ -81,10 +92,9 @@ public class HelloMicroservice extends AbstractVerticle {
     	JsonObject json = new JsonObject();
     	try {
     		JsonObject body = rc.getBodyAsJson();
-    		System.out.println(body.toString());
     		int id = body.getInteger("id");
-    		String description = body.getString("description");
     		int duein = body.getInteger("duein");
+    		String description = body.getString("description");
     		
     		int res = dbo.updateTask(id, description, duein);
     		
@@ -93,7 +103,7 @@ public class HelloMicroservice extends AbstractVerticle {
     		}
     		json.put("result", res);
     	} catch (Exception e) {
-    		json.put("error", "There is an error on the server, please see the server console.");
+    		json.put("error", clientErrorText );
     		e.printStackTrace();
     	}
     	rc.response()
@@ -103,14 +113,18 @@ public class HelloMicroservice extends AbstractVerticle {
     
     public void apiDelete(RoutingContext rc) {
     	String id = rc.pathParam("id");
-
-    	int res = dbo.deleteTask(Integer.parseInt(id));
+    	JsonObject json = new JsonObject();
+    			
+    	try {    		
+    		int res = dbo.deleteTask(Integer.parseInt(id));
+    		json.put("result", res);
+    	} catch (Exception e) {
+    		json.put("error", clientErrorText);
+    		e.printStackTrace();
+    	}
     	
-    	JsonObject json = new JsonObject().put("result", res);
     	rc.response()
     		.putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
     		.end(json.encode());
     }
-    
-
 }

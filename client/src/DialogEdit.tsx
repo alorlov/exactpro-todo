@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import * as React from 'react'
 import {
   TextField,
   Dialog,
@@ -6,19 +6,28 @@ import {
   DialogActions,
   DialogContent,
   Button} from '@material-ui/core'
-import DatePicker from './DatePicker'
+import { DatePicker } from './DatePicker'
 
-function Edit(props) {
+interface Props {
+  open: boolean,
+  taskNum: number,
+  description: string,
+  duein: number,
+  onClickClose: any,
+  onClickEdit: any
+}
+
+function Edit(props: Props) {
   const {onClickClose, onClickEdit, taskNum} = props
-  const [description, setDescription] = useState(props.description)
-  const [duein, setDuein] = useState(props.duein)
-  const [warn, setWarning] = useState(false)
+  const [description, setDescription] = React.useState(props.description)
+  const [duein, setDuein] = React.useState(props.duein)
+  const [warn, setWarning] = React.useState(false)
 
-  function handleChangeDate(date) {
+  function handleChangeDate(date: number) {
     setDuein(date)
   }
 
-  function handleChangeText(e) {
+  function handleChangeText(e: any) {
     setDescription(e.target.value)
   }
 
