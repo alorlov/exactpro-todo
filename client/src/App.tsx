@@ -1,10 +1,10 @@
 import * as React from 'react';
 import './App.css';
+import Paper from '@material-ui/core/Paper';
 import { AddForm } from './AddForm'
 import { TasksList } from './TasksList'
 
 import { Actions as api } from './actions/api'
-
 import { Task } from './types/Task'
 
 export function App() {
@@ -57,17 +57,19 @@ export function App() {
   }
 
   return (
-      <div className="App">
-        <header className="App-header">
+      <div className="app">
+        <Paper className="form-add">
           <AddForm
             onNewItem={handleNewItem}
             />
+        </Paper>
+        <Paper>
           <TasksList
             list={list}
             onEditItem={handleEditItem}
             onDeleteItem={handleDeleteItem}
             />
-        </header>
+        </Paper>
       </div>
   );
 }

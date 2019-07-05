@@ -1,0 +1,11 @@
+body {
+    background: #eee;
+}
+
+.app {
+    padding: 20px;
+}
+.form-add {
+  padding: 20px;
+  margin-bottom: 20px;
+}

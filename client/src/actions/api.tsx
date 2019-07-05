@@ -23,7 +23,7 @@ export class Actions {
       axios.get("/api/get")
       .then(response => {
         let data = response.data
-        console.log(data)
+        
         if (data.hasOwnProperty("error")) {
           reject(data.error)
         }

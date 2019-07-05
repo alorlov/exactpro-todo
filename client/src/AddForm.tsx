@@ -11,9 +11,10 @@ import { DatePicker } from './DatePicker'
 interface Props {
   onNewItem: (a: string, b: number) => any;
 }
+
 export const AddForm = (props: Props) => {
   const [description, setDescription] = React.useState('')
-  const [date, setDate] = React.useState(Math.floor(Date.now()/1000 + 3600 * 24))
+  const [date, setDate] = React.useState(Math.floor(Date.now() + 3600 * 24))
   const [warning, setWarning] = React.useState(false)
 
   function handleChangeText (e: any) {
@@ -36,8 +37,8 @@ export const AddForm = (props: Props) => {
   }
 
   return (
-    <div>
-      <Grid container justify="space-around">
+    <Grid container spacing={2} alignItems="stretch">
+      <Grid item>
         <TextField
           value={description}
           onChange={handleChangeText}
@@ -47,14 +48,18 @@ export const AddForm = (props: Props) => {
           error={warning && true}
           helperText={(warning && "Cannot be empty") || " "}
           />
+      </Grid>
+      <Grid item>
         <DatePicker
           onChangeDate={handleChangeDate}
           value={date}
           />
+      </Grid>
+      <Grid item>
         <Button variant="contained" color="primary" onClick={handleSubmit}>
         Add
         </Button>
       </Grid>
-    </div>
+    </Grid>
   )
 }

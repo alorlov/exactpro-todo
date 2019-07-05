@@ -23,8 +23,6 @@ public class HelloMicroservice extends AbstractVerticle {
     public void start() {
     	Router router = Router.router(vertx);
     	
-//    	router.route().handler(FaviconHandler.create());
-    	
     	router.route("/static/*").handler(StaticHandler.create());
     	
     	router.get("/api/get/:id").handler(this::apiGet);

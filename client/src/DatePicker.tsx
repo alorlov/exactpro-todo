@@ -3,8 +3,10 @@ import * as React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
-  DateTimePicker,
+  KeyboardDateTimePicker,
 } from '@material-ui/pickers';
+
+import { formatDuein } from './actions/date'
 
 interface Props {
   value: number;
@@ -12,21 +14,23 @@ interface Props {
 }
 
 export function DatePicker(props: Props) {
-  // const [selectedDate, setSelectedDate] = React.useState(props.value * 1000);
-  const selectedDate = props.value * 1000
+  // const [selectedDate, setSelectedDate] = React.useState(props.value);
+  const selectedDate = props.value
 
   function handleChangeDate(newDate: any) {
-    props.onChangeDate(Math.floor(Date.parse(newDate) / 1000))
+    props.onChangeDate(Math.floor(Date.parse(newDate)))
   }
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <DateTimePicker
+        <KeyboardDateTimePicker
           value={selectedDate}
+          ampm={false}
           disablePast
           onChange={handleChangeDate}
-          label="Due in"
+          label={`Due in ${formatDuein(new Date(), new Date(selectedDate))}`}
           showTodayButton
+          format="yyyy/MM/dd HH:mm"
         />
     </MuiPickersUtilsProvider>
   );

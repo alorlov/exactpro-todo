@@ -107,7 +107,7 @@ public class DBOperations {
     	DBOperations dbo = new DBOperations();
     	int result = 0;
 
-		result = dbo.createTask("from java", 1234567890);
+		result = dbo.createTask("from java ", 1234567890);
 
     	System.out.println("main result: " + result);
     }
