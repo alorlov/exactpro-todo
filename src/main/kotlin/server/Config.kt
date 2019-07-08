@@ -4,7 +4,8 @@ import com.google.gson.Gson
 
 class ConfigSchema (val host: String = "",
 			  val port: Int = 0,
-			  val dbUrl: String = "",
+			  val dbSocket: String = "",
+			  val dbName: String = "",
 			  val user: String = "",
 			  val password: String = "")
 

@@ -16,11 +16,34 @@ import java.util.Properties;
 import java.nio.file.*; 
 
 class DBOperations(val table: String = "tasks",
-				   val url: String,
+				   val dbSocket: String,
+				   val dbName: String,
 				   val user: String,
 				   val password: String) {
 	
-	val db: DBConnection = DBConnection(url, user, password)
+	val db: DBConnection = DBConnection(dbSocket, dbName, user, password)
+	
+	fun init() {
+		try {
+			createSchemaIfNotExists()
+		} catch (e: Exception) {
+			throw Exception("DBOperations init error: " + e.toString())
+		}
+	}
+	
+	fun createSchemaIfNotExists() {
+		val query: String = """Create Table If Not Exists $table (
+									id INT auto_increment,
+									description TEXT,
+									duein LONG,
+									PRIMARY KEY (id)
+								)
+		"""
+		db.getConnection().use{
+			con ->
+			con.createStatement().executeUpdate(query)
+		}
+	}
     
 	fun checkConnection() {
 		try {

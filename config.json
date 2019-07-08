@@ -1,7 +1,8 @@
 {
-	"dbUrl": "jdbc:mysql://localhost:3306/todo?useSSL=false",
+	"dbSocket": "localhost:3306",
+	"dbName": "todo",
 	"user": "root",
 	"password": "root",
 	"host": "localhost",
-	"port": 8890
+	"port": 8892
 }

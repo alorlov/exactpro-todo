@@ -19,8 +19,8 @@ import DBConnection
 
 class DBOperationsTest {
 	val config = getConfig("config.json")
-	val dbo: DBOperations = DBOperations(table = "tasks_test", url = config.dbUrl, user = config.user, password = config.password)
-	val db: DBConnection = DBConnection(url = config.dbUrl, user = config.user, password = config.password);
+	val dbo: DBOperations = DBOperations(table = "tasks_test", dbSocket = config.dbSocket, dbName = config.dbName, user = config.user, password = config.password)
+	val db: DBConnection = DBConnection(dbSocket = config.dbSocket, dbName = config.dbName, user = config.user, password = config.password)
 	
 	@BeforeEach
 	fun createTable() {

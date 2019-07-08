@@ -17,7 +17,7 @@ import DBOperations
 import getConfig
 import ConfigSchema
 import Print
-
+ 
 class MainVerticle : AbstractVerticle() {
 	
 	var config: ConfigSchema
@@ -25,9 +25,9 @@ class MainVerticle : AbstractVerticle() {
 	
 	init {
 		config = try { getConfig("config.json") } catch (e: Exception) { Print().error(e.toString()); ConfigSchema() }
-		dbo = DBOperations(url = config.dbUrl, user = config.user, password = config.password)
+		dbo = DBOperations(dbSocket = config.dbSocket, dbName = config.dbName, user = config.user, password = config.password)
 		
-		try { dbo.checkConnection() } catch (e: Exception) { Print().error(e.toString()) } 
+		try { dbo.init() } catch (e: Exception) { Print().error(e.toString()) }  
 	}
 	
 	
