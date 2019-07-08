@@ -9,42 +9,45 @@ import {
 import { DatePicker } from './DatePicker'
 
 interface Props {
+  dialogTitle: string,
   open: boolean,
   taskNum: number,
   description: string,
   duein: number,
   onClickClose: any,
-  onClickEdit: any
+  onClickConfirm: any
 }
 
 function Edit(props: Props) {
-  const {onClickClose, onClickEdit, taskNum} = props
+  const {onClickClose, onClickConfirm, taskNum} = props
   const [description, setDescription] = React.useState(props.description)
   const [duein, setDuein] = React.useState(props.duein)
-  const [warn, setWarning] = React.useState(false)
+  const [warning, setWarning] = React.useState(false)
 
   function handleChangeDate(date: number) {
     setDuein(date)
   }
 
   function handleChangeText(e: any) {
+    if (warning) setWarning(false)
     setDescription(e.target.value)
   }
 
-  function handleSubmit () {
+  function handleClickConfirm () {
     if (description.length == 0) {
       setWarning(true)
       return
     }
 
-    onClickEdit(taskNum, description, duein)
+    setDescription("")
+    onClickConfirm(description, duein)
   }
 
   return (
     <Dialog
       open={props.open}
     >
-      <DialogTitle>Edit your todo</DialogTitle>
+      <DialogTitle>{props.dialogTitle}</DialogTitle>
       <DialogContent>
         <TextField
           value={description}
@@ -52,8 +55,8 @@ function Edit(props: Props) {
           margin="normal"
           placeholder="Type new todo"
           autoFocus
-          error={warn && true}
-          helperText={(warn && "Cannot be empty") || " "}
+          error={warning && true}
+          helperText={(warning && "Cannot be empty") || " "}
           />
         <DatePicker
           onChangeDate={handleChangeDate}
@@ -64,7 +67,7 @@ function Edit(props: Props) {
         <Button onClick={onClickClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleSubmit} color="primary" autoFocus>
+        <Button onClick={handleClickConfirm} color="primary" autoFocus>
           Confirm
         </Button>
       </DialogActions>

@@ -1,6 +1,6 @@
 import 'date-fns';
 import * as React from 'react';
-import DateFnsUtils from '@date-io/date-fns';
+import MomentUtils from '@date-io/moment';
 import {
   MuiPickersUtilsProvider,
   KeyboardDateTimePicker,
@@ -22,7 +22,7 @@ export function DatePicker(props: Props) {
   }
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <MuiPickersUtilsProvider utils={MomentUtils}>
         <KeyboardDateTimePicker
           value={selectedDate}
           ampm={false}
@@ -30,7 +30,7 @@ export function DatePicker(props: Props) {
           onChange={handleChangeDate}
           label={`Due in ${formatDuein(new Date(), new Date(selectedDate))}`}
           showTodayButton
-          format="yyyy/MM/dd HH:mm"
+          format="YYYY/MM/DD HH:mm"
         />
     </MuiPickersUtilsProvider>
   );

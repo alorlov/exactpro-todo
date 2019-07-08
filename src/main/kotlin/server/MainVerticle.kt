@@ -22,7 +22,6 @@ class MainVerticle : AbstractVerticle() {
 	
 	var config: ConfigSchema
 	var dbo: DBOperations
-	val clientErrorText = "The server encountered a problem. Please see the server console for details. \n\n"
 	
 	init {
 		config = try { getConfig("config.json") } catch (e: Exception) { Print().error(e.toString()); ConfigSchema() }
@@ -47,9 +46,8 @@ class MainVerticle : AbstractVerticle() {
     	vertx.createHttpServer()
     		.requestHandler(router::accept)
     		.listen(config.port){ http ->
-				println("http ->")
 		        if (http.succeeded()) {
-		          Print().success("HTTP server started on ${config.host}:${config.port}")
+		          println("HTTP server started on ${config.host}:${config.port}")
 		        } else {
 		          Print().error("Error on server starting: " + http.cause())
 		        }
@@ -64,8 +62,7 @@ class MainVerticle : AbstractVerticle() {
     		val tasks: ArrayList<HashMap<String,Any>> = dbo.getTask(Integer.parseInt(id));
     		json.put("tasks", tasks);
     	} catch (e: Exception) {
-    		json.put("error", clientErrorText + e.toString());
-    		e.printStackTrace();
+    		json.put("error", e.toString());
     	}
     	rc.response()
     		.putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
@@ -78,8 +75,7 @@ class MainVerticle : AbstractVerticle() {
 	    	val tasks: ArrayList<HashMap<String,Any>> = dbo.getAllTasks()
 	    	json.put("tasks", tasks);
     	} catch (e: Exception) {
-    		json.put("error", clientErrorText + e.toString());
-    		e.printStackTrace();
+    		json.put("error", e.toString());
     	}
     	rc.response()
     		.putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
@@ -94,8 +90,7 @@ class MainVerticle : AbstractVerticle() {
     		val res: Int = dbo.deleteTask(Integer.parseInt(id));
     		json.put("result", res);
     	} catch (e: Exception) {
-    		json.put("error", clientErrorText + e.toString());
-    		e.printStackTrace();
+    		json.put("error", e.toString());
     	}
     	
     	rc.response()
@@ -118,8 +113,7 @@ class MainVerticle : AbstractVerticle() {
     		}
     		json.put("result", res);
     	} catch (e: Exception) {
-    		json.put("error", clientErrorText );
-    		e.printStackTrace();
+    		json.put("error", e.toString() );
     	}
     	rc.response()
     		.putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
@@ -137,8 +131,7 @@ class MainVerticle : AbstractVerticle() {
 	    	
 	    	json.put("id", res);
     	} catch (e: Exception) {
-    		json.put("error", clientErrorText + e.toString());
-    		e.printStackTrace();
+    		json.put("error", e.toString());
     	}
     	rc.response()
     		.putHeader(HttpHeaders.CONTENT_TYPE, "application/json")

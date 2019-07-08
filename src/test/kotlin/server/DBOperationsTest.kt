@@ -43,46 +43,47 @@ class DBOperationsTest {
 		dbo.createTask("a", 11);
 		dbo.createTask("b", 22);
 		val tasks: ArrayList<HashMap<String, Any>> = dbo.getAllTasks();
-		println(tasks)
-//		assertEquals(2, tasks.size());
+		assertEquals(2, tasks.size);
 		assertEquals("1", tasks.get(0).get("id"));
 		assertEquals("2", tasks.get(1).get("id"));
 	}
-//	
-//	@Test
-//	void newTask() throws SQLException {
-//		dbo.createTask("a", 1);
-//		int res = dbo.createTask("a", 1);
-//		assertEquals(2, res);
-//	}
-//	
-//	@Test
-//	void getTask() throws SQLException {
-//		String description = "a";
-//		int duein = 1;
-//		
-//		int res = dbo.createTask(description, duein);
-//		ArrayList<Map> tasks = dbo.getTask(1);
-//		Map last = tasks.get(tasks.size() - 1);
-//		
-//		assertEquals(description, last.get("description"));
-//		assertEquals(duein, Integer.parseInt(last.get("duein").toString()));
-//	}
-//	
-//	@Test
-//	void deleteTask() throws SQLException {
-//		dbo.createTask("a", 1);
-//		int res = dbo.deleteTask(1);
-//		assertEquals(res, 1);
-//	}
-//
-//	@Test
-//	void updateTask() throws SQLException {
-//		dbo.createTask("a", 1);
-//		dbo.updateTask(1, "b", 2);
-//		Map task = dbo.getTask(1).get(0);
-//		
-//		assertEquals("b", task.get("description"));
-//		assertEquals("2", task.get("duein"));
-//	}
+	
+	@Test
+	fun newTask() {
+		dbo.createTask("a", 1);
+		var res = dbo.createTask("a", 1);
+		assertEquals(2, res);
+	}
+	
+	@Test
+	fun getTask() {
+		val description = "a";
+		val duein: Long = 1;
+		
+		var res = dbo.createTask(description, duein);
+		val tasks: ArrayList<HashMap<String, Any>> = dbo.getTask(1);
+		var last: HashMap<String, Any> = tasks.get(tasks.size - 1);
+		
+		assertEquals(description, last.get("description"));
+		assertEquals(duein, last.get("duein"));
+	}
+	
+	@Test
+	fun deleteTask() {
+		dbo.createTask("a", 1);
+		var res = dbo.deleteTask(1);
+		assertEquals(res, 1);
+	}
+
+	@Test
+	fun updateTask() {
+		val oldValue: Long = 1
+		val newValue: Long = 2
+		dbo.createTask("a", oldValue);
+		dbo.updateTask(1, "b", newValue);
+		val task: HashMap<String, Any> = dbo.getTask(1).get(0);
+		
+		assertEquals("b", task.get("description"));
+		assertEquals(newValue, task.get("duein"));
+	}
 }

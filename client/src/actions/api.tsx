@@ -23,7 +23,7 @@ export class Actions {
       axios.get("/api/get")
       .then(response => {
         let data = response.data
-        
+
         if (data.hasOwnProperty("error")) {
           reject(data.error)
         }
@@ -37,7 +37,7 @@ export class Actions {
     return new Promise((resolve, reject) => {
       axios.post("/api/create", {
         description: description,
-        duein: duein
+        duein: Number(duein)
       })
       .then(response => {
         let data = response.data

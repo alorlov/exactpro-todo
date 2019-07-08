@@ -12,7 +12,7 @@ function ConfirmDelete(props: Props) {
     <Dialog
       open={props.open}
     >
-      <DialogTitle>Are you sure you want to delete "{props.title}"</DialogTitle>
+      <DialogTitle>Are you sure you want to delete "{props.title}"?</DialogTitle>
       <DialogActions>
         <Button onClick={props.onClickClose} color="primary">
           Cancel

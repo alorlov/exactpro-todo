@@ -20,11 +20,3 @@ fun getConfig(filename: String): ConfigSchema {
 		throw Exception("Error on reading config file '$filename': " + e.message)
 	}
 }
-
-fun main(args: Array<String>) {
-	var dbo: DBOperations = DBOperations(url = "", user = "", password = "")
-	println(dbo)
-	val a = try { 5/0 } catch(e: Exception) { println("except") }
-	println("after exceptin")
-	getConfig("config.json")
-}

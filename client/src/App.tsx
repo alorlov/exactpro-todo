@@ -1,11 +1,12 @@
 import * as React from 'react';
 import './App.css';
 import Paper from '@material-ui/core/Paper';
-import { AddForm } from './AddForm'
 import { TasksList } from './TasksList'
 
 import { Actions as api } from './actions/api'
 import { Task } from './types/Task'
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 export function App() {
   const [list, setList] = React.useState(null)
@@ -47,25 +48,29 @@ export function App() {
   }
 
   function getTasks() {
-      api.getAll().then((tasks: Task[]) => {setList(tasks)})
-      .catch((error: string) => alert(error))
-      setList([])
-    }
+    api.getAll().then((tasks: Task[]) => {
+      tasks.sort((a: Task, b: Task) => a.duein - b.duein)
+      setList(tasks)
+    })
+    .catch((error: string) => alert(error))
+  }
 
   if (!list) {
+    setList([])
     getTasks()
   }
 
   return (
       <div className="app">
-        <Paper className="form-add">
-          <AddForm
-            onNewItem={handleNewItem}
-            />
-        </Paper>
+        <Typography variant="h5">
+          <Box fontWeight="fontWeightLight" color="text.secondary" m={1}>
+            Your perfect todos
+          </Box>
+        </Typography>
         <Paper>
           <TasksList
             list={list}
+            onAddItem={handleNewItem}
             onEditItem={handleEditItem}
             onDeleteItem={handleDeleteItem}
             />
